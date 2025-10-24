@@ -1,0 +1,38 @@
+version: "3"
+
+tasks:
+  setup:
+    desc: "Set up Node.js project dependencies"
+    cmds:
+      - echo "🚀 Setting up Node.js project..."
+      - npm install
+
+  dev:
+    desc: "Start development server with hot reload"
+    cmds:
+      - echo "🚀 Starting development server..."
+      - npm run start
+
+  start:
+    desc: "Start the application"
+    cmds:
+      - node index.js
+
+  build:
+    desc: "Build project (placeholder for future build steps)"
+    cmds:
+      - echo "🔨 Building project..."
+      - echo "No build step defined yet for this simple Node.js project"
+
+  clean:
+    desc: "Clean project dependencies"
+    cmds:
+      - echo "🧹 Cleaning project..."
+      - rm -rf node_modules
+      - echo "Dependencies cleaned"
+
+  default:
+    desc: "Default task - start development server"
+    deps: [setup]
+    cmds:
+      - task: dev
