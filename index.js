@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
-const http = require('http');
+const http = require("http");
 const port = process.env.PORT || 3000;
 
 const server = http.createServer((req, res) => {
-  res.writeHead(200, { 'Content-Type': 'text/html' });
+  res.writeHead(200, { "Content-Type": "text/html" });
   res.end(`
     <html>
       <head>
@@ -27,14 +27,14 @@ const server = http.createServer((req, res) => {
 
 server.listen(port, () => {
   console.log(`🚀 Server running at http://localhost:${port}`);
-  console.log(`📝 Razd setup complete! Use 'razd task dev' to start development.`);
+  console.log(`📝 Razd setup complete! Use 'razd dev' to start development.`);
 });
 
 // Graceful shutdown
-process.on('SIGTERM', () => {
-  console.log('👋 Shutting down server...');
+process.on("SIGTERM", () => {
+  console.log("👋 Shutting down server...");
   server.close(() => {
-    console.log('✅ Server stopped');
+    console.log("✅ Server stopped");
     process.exit(0);
   });
 });
