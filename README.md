@@ -1,75 +1,103 @@
 # Node.js Razd Example
 
-This is a Node.js project configured for use with [Razd CLI](https://github.com/razd-cli/razd) - a streamlined project setup tool that integrates git, mise, and taskfile.
+Простой Node.js проект, настроенный для работы с [Razd CLI](https://razd-cli.github.io) — инструментом для быстрой настройки проектов.
 
-## Quick Start with Razd
+## Быстрый старт
 
-### Prerequisites
-- [mise](https://mise.jdx.dev/getting-started.html) - Required for tool management
-- [razd](https://github.com/razd-cli/razd) - Install via mise: `mise use -g razd`
+### Установка Razd
 
-### Setup Project
 ```bash
-# Clone and setup (if cloning from repository)
-razd up https://github.com/razd-cli/razd-nodejs-example.git
+# Установите плагин Razd через mise
+mise plugin install razd https://github.com/razd-cli/vfox-plugin-razd
 
-# Or setup existing local project
+# Установите последнюю версию
+mise use -g razd@latest
+
+# Проверьте установку
+razd --version
+```
+
+### Запуск проекта
+
+```bash
+# Клонировать и настроить одной командой
+razd up https://github.com/razd-cli/razd-nodejs-example
+
+# Или настроить локальный проект
 cd razd-nodejs-example
 razd up
 ```
 
-### Available Tasks
+**Что происходит при `razd up`:**
+- 🔧 Устанавливает Node.js 22 и Task через mise
+- 📦 Устанавливает npm зависимости
+- 🚀 Запускает dev сервер
+- ✅ Проект готов к работе!
+
+## Доступные команды
+
 ```bash
-# Start development server (default task)
-razd task
+# Запустить задачу по умолчанию (setup + dev)
+razd up
 
-# Or explicitly run development server
-razd task dev
+# Установить зависимости
+razd run install
 
-# Setup project dependencies
-razd task setup
+# Запустить dev сервер
+razd run dev
 
-# Start production server
-razd task start
+# Собрать проект
+razd run build
 
-# Clean dependencies
-razd task clean
-
-# View all available tasks
-task --list
+# Посмотреть все задачи
+razd run
 ```
 
-## Manual Setup (without Razd)
+## Конфигурация
 
-If you prefer not to use Razd:
+Проект использует `Razdfile.yml` для управления инструментами и задачами:
+
+```yaml
+mise:
+  tools:
+    node: "22"      # Node.js версия 22
+    task: latest    # Последняя версия Task
+
+tasks:
+  default:          # Настройка и запуск
+  install:          # Установка зависимостей
+  dev:              # Dev сервер
+  build:            # Сборка проекта
+```
+
+## Структура проекта
+
+```
+├── Razdfile.yml   # Конфигурация Razd
+├── package.json   # npm зависимости
+└── index.js       # Точка входа
+```
+
+## Без Razd
+
+Если не хотите использовать Razd:
 
 ```bash
-# Install Node.js version specified in mise.toml
-mise install
+# Установите mise
+curl https://mise.run | sh
 
-# Install dependencies
+# Установите инструменты
+mise install node@22
+mise install task@latest
+
+# Установите зависимости и запустите
 npm install
-
-# Start development server
 npm run dev
 ```
 
-## Project Structure
+## Ресурсы
 
-- `index.js` - Main application entry point with simple HTTP server
-- `Taskfile.yml` - Task definitions for Razd/Task runner
-- `mise.toml` - Node.js version specification
-- `package.json` - npm package configuration
-
-## Features
-
-- 🚀 One-command setup with Razd
-- 🔄 Hot reload development server
-- 📦 Automatic tool version management with mise
-- 🎯 Task-based workflow with clear descriptions
-
-## Resources
-
-- [Razd CLI](https://github.com/razd-cli/razd) - Streamlined project setup
-- [Task](https://taskfile.dev/) - Task runner / build tool
-- [mise](https://mise.jdx.dev/) - Development environment management
+- [Документация Razd](https://razd-cli.github.io)
+- [Getting Started](https://razd-cli.github.io/docs/getting-started)
+- [mise](https://mise.jdx.dev) — менеджер инструментов
+- [Task](https://taskfile.dev) — таск-раннер
