@@ -32,8 +32,8 @@ jobs:
           # List available versions
           mise ls-remote razd || echo "Could not list versions"
           
-          # Install specific version (v0.4.4 according to docs)
-          mise use -g razd@latest
+          # Mise uses razd
+          mise use -g razd
           
           # Now install all tools from mise.toml
           mise install
