@@ -1,0 +1,123 @@
+name: Test mise Integration with Razd
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test-mise-razd:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Cache mise
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.local/bin/mise
+            ~/.local/share/mise
+          key: mise-${{ runner.os }}-v2-${{ hashFiles('mise.toml', 'Razdfile.yml') }}
+          restore-keys: |
+            mise-${{ runner.os }}-v2-
+      
+      - name: Install mise
+        run: |
+          curl https://mise.run | sh
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+      
+      - name: Verify mise installation
+        run: |
+          mise --version
+          mise doctor
+      
+      - name: Install razd plugin from source
+        run: |
+          # Clone the vfox-plugin-razd repository if not in the same workspace
+          if [ ! -d "../vfox-plugin-razd" ]; then
+            cd ..
+            git clone https://github.com/razd-cli/vfox-plugin-razd.git || echo "Plugin repo already exists or unavailable"
+            cd razd-nodejs-example
+          fi
+          
+          # Install plugin from local path or from GitHub
+          if [ -d "../vfox-plugin-razd" ]; then
+            mise plugin install --yes razd "file://$(realpath ../vfox-plugin-razd)"
+          else
+            mise plugin install --yes razd https://github.com/razd-cli/vfox-plugin-razd
+          fi
+      
+      - name: Verify plugin installation
+        run: |
+          mise plugin list
+          mise plugin list | grep razd
+      
+      - name: List available razd versions
+        run: mise ls-remote razd | head -20
+      
+      - name: Trust mise configuration
+        run: mise trust
+      
+      - name: Install tools via mise (Node.js, task, razd)
+        run: |
+          mise install
+          mise list
+      
+      - name: Verify razd installation
+        run: |
+          eval "$(mise activate bash)"
+          mise exec -- razd --version
+      
+      - name: Install npm dependencies
+        run: |
+          eval "$(mise activate bash)"
+          npm install
+      
+      - name: Run razd setup check
+        run: |
+          eval "$(mise activate bash)"
+          mise exec -- razd --help
+      
+      - name: Start server and test
+        run: |
+          eval "$(mise activate bash)"
+          
+          # Start server in background
+          npm start &
+          SERVER_PID=$!
+          
+          # Wait for server to start
+          echo "Waiting for server to start..."
+          sleep 5
+          
+          # Test if server is responding
+          curl -f http://localhost:3000 || {
+            echo "Server failed to respond"
+            kill $SERVER_PID 2>/dev/null || true
+            exit 1
+          }
+          
+          echo "✅ Server is running successfully!"
+          
+          # Show server response
+          curl http://localhost:3000
+          
+          # Cleanup
+          kill $SERVER_PID 2>/dev/null || true
+          echo "✅ Test completed successfully!"
+      
+      - name: Run razd tasks (if available)
+        if: always()
+        run: |
+          eval "$(mise activate bash)"
+          
+          # Try to run razd install task
+          mise exec -- razd install || echo "No razd install task available"
+          
+          # List available tasks
+          mise tasks || echo "No tasks configured"
