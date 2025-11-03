@@ -73,23 +73,36 @@ jobs:
           export PATH="$HOME/.local/bin:$PATH"
           mise trust --all
       
-      - name: Install tools via mise (Node.js, task, razd)
+      - name: Install tools via mise (Node.js, task)
         run: |
           export PATH="$HOME/.local/bin:$PATH"
           
-          # Install all tools from mise.toml
+          # Install Node.js and task from mise.toml
+          echo "=== Installing Node.js and task ==="
           mise install --verbose
           
-          # Verify installations
+          echo "=== Installed tools ==="
           mise list
           
-          # Check mise doctor
+          echo "=== Installing razd globally ==="
+          mise use -g razd@latest
+          
+          echo "=== Verifying razd installation ==="
+          mise list
+          mise where razd || echo "razd location not found"
+          
+          echo "=== Checking mise doctor ==="
           mise doctor || true
       
       - name: Verify razd installation
         run: |
           export PATH="$HOME/.local/bin:$PATH"
           eval "$(mise activate bash)"
+          
+          # Check razd version
+          razd --version
+          
+          # Verify mise can execute razd
           mise exec -- razd --version
       
       - name: Install npm dependencies
