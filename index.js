@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const http = require("http");
+const pc = require("picocolors");
 const port = process.env.PORT || 3000;
 
 const server = http.createServer((req, res) => {
@@ -26,15 +27,17 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(port, () => {
-  console.log(`🚀 Server running at http://localhost:${port}`);
-  console.log(`📝 Razd setup complete! Use 'razd dev' to start development.`);
+  console.log(pc.green(`🚀 Server running at http://localhost:${port}`));
+  console.log(
+    pc.cyan(`📝 Razd setup complete! Use 'razd dev' to start development.`),
+  );
 });
 
 // Graceful shutdown
 process.on("SIGTERM", () => {
-  console.log("👋 Shutting down server...");
+  console.log(pc.yellow("👋 Shutting down server..."));
   server.close(() => {
-    console.log("✅ Server stopped");
+    console.log(pc.green("✅ Server stopped"));
     process.exit(0);
   });
 });

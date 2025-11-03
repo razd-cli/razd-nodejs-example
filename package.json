@@ -8,9 +8,8 @@
     "dev": "node --watch index.js"
   },
   "keywords": [],
-  "author": "Ives van Hoorne",
   "license": "MIT",
   "dependencies": {
-    "express": "^5.1.0"
+    "picocolors": "^1.1.1"
   }
 }
