@@ -28,7 +28,12 @@ jobs:
         run: |
           # Install razd plugin and tool
           mise plugin install razd https://github.com/razd-cli/vfox-plugin-razd
-          mise use -g razd@latest
+          
+          # List available versions
+          mise ls-remote razd || echo "Could not list versions"
+          
+          # Install specific version (v0.4.4 according to docs)
+          mise use -g razd@0.4.4
           
           # Now install all tools from mise.toml
           mise install
