@@ -19,7 +19,7 @@ jobs:
       - name: Setup mise and install tools
         uses: jdx/mise-action@v2
         with:
-          version: 2024.12.14  # Use specific version instead of latest
+        
           install: false  # Don't install yet, need to add razd plugin first
           cache: true
           experimental: true
@@ -33,7 +33,7 @@ jobs:
           mise ls-remote razd || echo "Could not list versions"
           
           # Mise uses razd
-          mise use -g razd
+          mise use -g razd@0.4.4
           
           # Now install all tools from mise.toml
           mise install
