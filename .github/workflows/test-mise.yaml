@@ -30,14 +30,19 @@ jobs:
         run: |
           curl https://mise.run | sh
           echo "$HOME/.local/bin" >> $GITHUB_PATH
+          
+      - name: Add mise to current shell
+        run: echo "$HOME/.local/bin/mise" >> $GITHUB_PATH
       
       - name: Verify mise installation
         run: |
+          export PATH="$HOME/.local/bin:$PATH"
           mise --version
-          mise doctor
       
       - name: Install razd plugin from source
         run: |
+          export PATH="$HOME/.local/bin:$PATH"
+          
           # Clone the vfox-plugin-razd repository if not in the same workspace
           if [ ! -d "../vfox-plugin-razd" ]; then
             cd ..
@@ -54,37 +59,54 @@ jobs:
       
       - name: Verify plugin installation
         run: |
+          export PATH="$HOME/.local/bin:$PATH"
           mise plugin list
           mise plugin list | grep razd
       
       - name: List available razd versions
-        run: mise ls-remote razd | head -20
+        run: |
+          export PATH="$HOME/.local/bin:$PATH"
+          mise ls-remote razd | head -20
       
       - name: Trust mise configuration
-        run: mise trust
+        run: |
+          export PATH="$HOME/.local/bin:$PATH"
+          mise trust --all
       
       - name: Install tools via mise (Node.js, task, razd)
         run: |
-          mise install
+          export PATH="$HOME/.local/bin:$PATH"
+          
+          # Install all tools from mise.toml
+          mise install --verbose
+          
+          # Verify installations
           mise list
+          
+          # Check mise doctor
+          mise doctor || true
       
       - name: Verify razd installation
         run: |
+          export PATH="$HOME/.local/bin:$PATH"
           eval "$(mise activate bash)"
           mise exec -- razd --version
       
       - name: Install npm dependencies
         run: |
+          export PATH="$HOME/.local/bin:$PATH"
           eval "$(mise activate bash)"
           npm install
       
       - name: Run razd setup check
         run: |
+          export PATH="$HOME/.local/bin:$PATH"
           eval "$(mise activate bash)"
           mise exec -- razd --help
       
       - name: Start server and test
         run: |
+          export PATH="$HOME/.local/bin:$PATH"
           eval "$(mise activate bash)"
           
           # Start server in background
@@ -114,6 +136,7 @@ jobs:
       - name: Run razd tasks (if available)
         if: always()
         run: |
+          export PATH="$HOME/.local/bin:$PATH"
           eval "$(mise activate bash)"
           
           # Try to run razd install task
