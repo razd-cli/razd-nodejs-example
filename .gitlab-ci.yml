@@ -7,6 +7,4 @@ build:
     - razd --version
     
     - razd install
-    
-    - echo "=== Razd build ==="
     - razd build
