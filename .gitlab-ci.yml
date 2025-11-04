@@ -13,9 +13,3 @@ build:
     
     - echo "=== Razd build ==="
     - razd build
-
-  artifacts:
-    when: on_failure
-    paths:
-      - .mise/
-    expire_in: 1 day
