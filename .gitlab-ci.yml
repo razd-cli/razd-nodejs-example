@@ -5,6 +5,6 @@ build:
   script:
     - echo "=== Verify installation ==="
     - razd --version
-    
+    - mise install
     - razd install
     - razd build
