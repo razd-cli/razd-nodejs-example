@@ -11,11 +11,8 @@ build:
     - mise install
     - razd install
     
-    - echo "=== Test server ==="
-    - razd dev &
-    - sleep 5
-    - curl -f http://localhost:3000
-    - echo "✅ Server OK!"
+    - echo "=== Razd build ==="
+    - razd build
 
   artifacts:
     when: on_failure

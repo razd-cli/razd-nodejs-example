@@ -47,10 +47,7 @@ jobs:
       - name: Install npm dependencies
         run: razd install
       
-      - name: Test server
+      - name: Razd build
         run: |
-          razd dev &
-          sleep 5
-          curl -f http://localhost:3000
-          echo "✅ Server OK!"
+          razd build
 

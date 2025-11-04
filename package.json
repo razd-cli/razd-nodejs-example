@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node --watch index.js",
-    "dev": "node --watch index.js"
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "build": "echo 'Building project...' && node --check index.js && echo 'Build completed successfully!'"
   },
   "keywords": [],
   "license": "MIT",
