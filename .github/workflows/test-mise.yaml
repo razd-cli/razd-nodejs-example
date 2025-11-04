@@ -16,32 +16,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       
-      - name: Setup mise and install tools
-        uses: jdx/mise-action@v2
+      - uses: razd-cli/razd-action@v1.0.1
         with:
-        
-          install: false  # Don't install yet, need to add razd plugin first
-          cache: true
-          experimental: true
+          mise-version: '2025.11.2'
+          checkout-repository: 'true'
       
-      - name: Install razd
-        run: |
-          # Install razd plugin and tool
-          mise plugin install razd https://github.com/razd-cli/vfox-plugin-razd
-          
-          # List available versions
-          mise ls-remote razd || echo "Could not list versions"
-          
-          # Mise uses razd
-          mise use -g razd
-          
-          # Now install all tools from mise.toml
-          mise install
-      
-      - name: Verify installations
-        run: mise list
-      
-      - name: Verify razd
+      - name: Use razd
         run: razd --version
       
       - name: Install npm dependencies
