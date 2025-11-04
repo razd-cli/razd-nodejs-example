@@ -1,9 +1,24 @@
 image: registry.gitlab.com/razd-cli/razd-debian-slim:latest
 
-test:
+
+build:
   script:
+    - echo "=== Verify installations ==="
     - mise --version
     - razd --version
+    
+    - echo "=== Install tools and dependencies ==="
     - mise install
     - razd install
-    - razd build
+    
+    - echo "=== Test server ==="
+    - razd dev &
+    - sleep 5
+    - curl -f http://localhost:3000
+    - echo "✅ Server OK!"
+
+  artifacts:
+    when: on_failure
+    paths:
+      - .mise/
+    expire_in: 1 day
