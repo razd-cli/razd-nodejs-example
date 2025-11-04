@@ -1,0 +1,9 @@
+image: registry.gitlab.com/razd-cli/razd-debian-slim:latest
+
+test:
+  script:
+    - mise --version
+    - razd --version
+    - mise install
+    - razd install
+    - razd build
