@@ -12,9 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: razd-cli/razd-action-mise@v1
-      
+
       - name: Build with razd
         run: |
           razd --version
-          razd install --yes
-          razd build
+          razd up --yes
+          razd run build --yes
