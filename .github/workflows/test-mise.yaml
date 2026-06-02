@@ -17,4 +17,4 @@ jobs:
         run: |
           razd --version
           razd up --yes
-          razd run build --yes
+          razd run build
