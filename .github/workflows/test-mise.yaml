@@ -11,7 +11,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: razd-cli/razd-action@v1.0.1
+      - uses: razd-cli/razd-action-mise@v1
       
       - name: Build with razd
         run: |
