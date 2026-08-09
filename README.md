@@ -4,21 +4,6 @@
 
 ## Быстрый старт
 
-### Установка Razd
-
-Razd 1.x распространяется как бинарник через [GitHub Releases](https://github.com/razd-cli/razd/releases) и может устанавливаться через mise/vfox (встроенный vfox-плагин):
-
-```bash
-# Установите плагин Razd через mise
-mise plugin install razd https://github.com/razd-cli/vfox-plugin-razd
-
-# Установите последнюю версию
-mise use -g razd@latest
-
-# Проверьте установку
-razd --version
-```
-
 ### Запуск проекта
 
 ```bash
@@ -111,4 +96,3 @@ npm run dev
 - [Razd CLI](https://github.com/razd-cli/razd) — репозиторий и документация
 - [mise](https://mise.jdx.dev) — менеджер инструментов
 - [Task](https://taskfile.dev) — таск-раннер
-- [vfox-plugin-razd](https://github.com/razd-cli/vfox-plugin-razd) — плагин для установки Razd
