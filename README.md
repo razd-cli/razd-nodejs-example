@@ -74,23 +74,6 @@ tasks:
 └── index.js       # Точка входа
 ```
 
-## Без Razd
-
-Если не хотите использовать Razd:
-
-```bash
-# Установите mise
-curl https://mise.run | sh
-
-# Установите инструменты
-mise install node@22
-mise install task@latest
-
-# Установите зависимости и запустите
-npm install
-npm run dev
-```
-
 ## Ресурсы
 
 - [Razd CLI](https://github.com/razd-cli/razd) — репозиторий и документация
