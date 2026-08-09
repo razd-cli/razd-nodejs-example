@@ -16,5 +16,4 @@ jobs:
       - name: Build with razd
         run: |
           razd --version
-          razd up --yes
           razd run build --yes
