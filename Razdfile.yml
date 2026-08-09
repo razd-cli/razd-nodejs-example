@@ -10,8 +10,8 @@ dependencies:
 tasks:
   default:
     desc: Set up Node.js project
-    deps: [install]
     cmds:
+      - task: install
       - task: dev
   install:
     desc: Install dependencies
