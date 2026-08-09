@@ -1,10 +1,12 @@
 # Node.js Razd Example
 
-Простой Node.js проект, настроенный для работы с [Razd CLI](https://razd-cli.github.io) — инструментом для быстрой настройки проектов.
+Простой Node.js проект, настроенный для работы с [Razd CLI](https://github.com/razd-cli/razd) — инструментом для быстрой настройки проектов.
 
 ## Быстрый старт
 
 ### Установка Razd
+
+Razd 1.x распространяется как бинарник через [GitHub Releases](https://github.com/razd-cli/razd/releases) и может устанавливаться через mise/vfox (встроенный vfox-плагин):
 
 ```bash
 # Установите плагин Razd через mise
@@ -29,28 +31,30 @@ razd up
 ```
 
 **Что происходит при `razd up`:**
-- 🔧 Устанавливает Node.js 22 и Task через mise
-- 📦 Устанавливает npm зависимости
-- 🚀 Запускает dev сервер
+- 🔧 Синхронизирует `Razdfile.yml` с `mise.toml` и устанавливает Node.js 22 и Task через mise
+- 📦 Устанавливает npm зависимости (задача `install`)
+- 🚀 Запускает dev сервер (задача `dev`)
 - ✅ Проект готов к работе!
 
 ## Доступные команды
 
 ```bash
-# Запустить задачу по умолчанию (setup + dev)
+# Запустить задачу по умолчанию (install + dev)
 razd up
 
-# Установить зависимости
+# Запустить задачу по имени
 razd run install
-
-# Запустить dev сервер
 razd run dev
-
-# Собрать проект
 razd run build
 
 # Посмотреть все задачи
-razd run
+razd list
+
+# Добавить зависимость в Razdfile.yml
+razd add node@22
+
+# Управление доверием к проекту
+razd trust
 ```
 
 ## Конфигурация
@@ -58,22 +62,29 @@ razd run
 Проект использует `Razdfile.yml` для управления инструментами и задачами:
 
 ```yaml
-mise:
-  tools:
-    node: "22"      # Node.js версия 22
-    task: latest    # Последняя версия Task
+version: "1"
+
+# Унифицированное управление зависимостями (mise или devbox)
+dependencies:
+  using: "mise"          # Провайдер окружения: mise или devbox
+  ensure:
+    - "task@latest"      # Таск-раннер Task
+    - "node@22"          # Node.js версия 22
 
 tasks:
-  default:          # Настройка и запуск
-  install:          # Установка зависимостей
-  dev:              # Dev сервер
-  build:            # Сборка проекта
+  default:               # Настройка и запуск
+  install:               # Установка зависимостей
+  dev:                   # Dev сервер
+  build:                 # Сборка проекта
 ```
+
+В 1.x `Razdfile.yml` использует единый блок `dependencies` с провайдером (`mise`/`devbox`). Razd держит `Razdfile.yml` и нативный конфиг провайдера (`mise.toml` / `devbox.json`) в синхронизированном состоянии: инструменты, добавленные в один файл, автоматически переносятся в другой.
 
 ## Структура проекта
 
 ```
 ├── Razdfile.yml   # Конфигурация Razd
+├── mise.toml      # Конфигурация mise (синхронизируется с Razdfile.yml)
 ├── package.json   # npm зависимости
 └── index.js       # Точка входа
 ```
@@ -97,7 +108,7 @@ npm run dev
 
 ## Ресурсы
 
-- [Документация Razd](https://razd-cli.github.io)
-- [Getting Started](https://razd-cli.github.io/docs/getting-started)
+- [Razd CLI](https://github.com/razd-cli/razd) — репозиторий и документация
 - [mise](https://mise.jdx.dev) — менеджер инструментов
 - [Task](https://taskfile.dev) — таск-раннер
+- [vfox-plugin-razd](https://github.com/razd-cli/vfox-plugin-razd) — плагин для установки Razd

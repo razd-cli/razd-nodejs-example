@@ -1,5 +1,5 @@
 version: "1"
-    
+
 dependencies:
   using: "mise"
 
@@ -10,15 +10,12 @@ dependencies:
 tasks:
   default:
     desc: Set up Node.js project
+    deps: [install]
     cmds:
-      - echo "🚀 Setting up Node.js project..."
-      - task: install
       - task: dev
   install:
     desc: Install dependencies
     cmds:
-      - mise trust
-      - mise install
       - echo "📦 Installing dependencies..."
       - npm install
   dev:
@@ -31,4 +28,3 @@ tasks:
     cmds:
       - echo "🔨 Building project..."
       - npm run build
-
